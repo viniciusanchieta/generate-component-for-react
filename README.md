@@ -36,6 +36,7 @@ This extension the component with the given name, generates a test file with the
 </p>
 
 ### Step 4:
+
 - Choose the style library you want to use.
 - Choose between `Material-UI` or `Styled-Components` or `Style without library` or `Without style`.
 
