@@ -105,7 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
 			switch(library){
 				case "material-ui":
 					const styleFileMui = path.join(createFolder, nameComponentLowerCase + '-style.ts');
-					const styleFileContentMui = "import { makeStyles } from '@material-ui/core/styles';\n\nexport default makeStyles({\n	container: {}\n});\n";
+					const styleFileContentMui = "import { makeStyles } from '@mui/styles';\n\nexport default makeStyles({\n	container: {}\n});\n";
 					fs.writeFileSync(styleFileMui, styleFileContentMui);
 					const componentFileContentMui = "import makeStyles from './" + nameComponentLowerCase + "-style';\n\nfunction " + nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponent + ";";
 					fs.writeFileSync(componentFile, componentFileContentMui);
