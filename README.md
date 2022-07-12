@@ -70,3 +70,8 @@ If you want to use the test library `testing-library react`, you need to install
 npm install @testing-library/react
 ```
 
+## I am here
+
+<a href="https://www.linkedin.com/in/viniciusanchieta/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+
+
