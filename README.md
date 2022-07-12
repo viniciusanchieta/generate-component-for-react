@@ -29,6 +29,7 @@ This extension the component with the given name, generates a test file with the
 
 ### Step 3:
 - Choose the folder where you want to generate the component or choose path default (`src/components`).
+- `Warning: Option Default folder is not available. Will soon be available!`
 
 <p align="left">
   <img src="./src/img/step-three.png" width="500" />
