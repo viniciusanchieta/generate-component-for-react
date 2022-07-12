@@ -3,6 +3,8 @@
 	"displayName": "generate component and style",
 	"description": "",
 	"version": "0.0.1",
+	"repository": "https://github.com/viniciusanchieta/generate-component-and-style",
+	"publisher": "viniciusanchieta",
 	"engines": {
 		"vscode": "^1.69.0"
 	},
