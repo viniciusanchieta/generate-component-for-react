@@ -27,25 +27,13 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		async function getSelectedPath(){
-			const fs = require('fs');
-			const path = require('path');
-
-			const folderRoot = folderSelected();
-			const folderComponent = path.join(folderRoot, "src/components");
-			fs.mkdirSync(folderComponent, {recursive: true});
 
 			const folder = await vscode.window.showQuickPick([
-				{
-					label: "Default folder",
-					description: folderSelected() + "/src/components/",
-					detail: "",
-					picked: true
-				},
 				{
 					label: "Choose folder",
 					description: "",
 					detail: "",
-					picked: false
+					picked: true
 				}
 			], {
 				placeHolder: "Choose folder"
