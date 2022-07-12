@@ -1,10 +1,11 @@
 {
   "name": "generate-component-and-style",
-	"displayName": "generate component and style",
+	"displayName": "Generate component and style",
 	"description": "",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"repository": "https://github.com/viniciusanchieta/generate-component-and-style",
 	"publisher": "viniciusanchieta",
+	"icon": "extension/img/logo.png",
 	"engines": {
 		"vscode": "^1.69.0"
 	},
