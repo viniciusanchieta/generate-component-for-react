@@ -1,5 +1,9 @@
 # Generate component and style
 
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
+[![Rating](https://vsmarketplacebadge.apphb.com/rating/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style)
+
 This extension generates a component and style for the given component name.
 
 ## About
