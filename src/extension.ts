@@ -99,21 +99,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 			switch(library){
 				case "material-ui":
-					const styleFileMui = path.join(createFolder, componentName + '-style.ts');
+					const styleFileMui = path.join(createFolder, componentName + '-styles.ts');
 					const styleFileContentMui = "import { makeStyles } from '@mui/styles';\n\nexport default makeStyles({\n	container: {}\n});\n";
 					fs.writeFileSync(styleFileMui, styleFileContentMui);
 					const componentFileContentMui = "import makeStyles from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
 					fs.writeFileSync(componentFile, componentFileContentMui);
 					break;
 				case "styled-components":
-					const styleFileSc = path.join(createFolder, componentName + '-style.ts');
+					const styleFileSc = path.join(createFolder, componentName + '-styles.ts');
 					const styleFileContentSc = "import styled from 'styled-components';\n\nexport const Container = styled.div``;\n";
 					fs.writeFileSync(styleFileSc, styleFileContentSc);
 					const componentFileContentSc = "import { Container } from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
 					fs.writeFileSync(componentFile, componentFileContentSc);
 					break;
 				case "no-library":
-					const styleFileNoLibrary = path.join(createFolder, componentName + '-style.ts');
+					const styleFileNoLibrary = path.join(createFolder, componentName + '-styles.ts');
 					const styleFileContentNoLibrary = "export const container = {};\n";
 					fs.writeFileSync(styleFileNoLibrary, styleFileContentNoLibrary);
 					const componentFileContentNoLibrary = "import { container } from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	return (\n		<h1 className={container}>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
