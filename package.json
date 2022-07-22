@@ -2,7 +2,7 @@
   "name": "generate-component-and-style",
 	"displayName": "Generate component and style",
 	"description": "This extension generates a component and style for the given component name.",
-	"version": "0.0.8",
+	"version": "0.1.0",
 	"repository": "https://github.com/viniciusanchieta/generate-component-and-style/tree/prod",
 	"publisher": "viniciusanchieta",
 	"icon": "extension/img/logo.png",
