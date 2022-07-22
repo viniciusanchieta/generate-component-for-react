@@ -51,7 +51,7 @@ This extension the component with the given name, generates a test file with the
 
 ### Result:
 - The component is generated in the folder you choose with files:
-  - `component-style.ts`
+  - `component-styles.ts`
   - `component.spec.tsx`
   - `component.tsx`
   - `index.ts`
