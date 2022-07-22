@@ -1,5 +1,9 @@
 # Generate component and style
 
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
+[![Rating](https://vsmarketplacebadge.apphb.com/rating/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style)
+
 This extension generates a component and style for the given component name.
 
 ## About
@@ -29,12 +33,14 @@ This extension the component with the given name, generates a test file with the
 
 ### Step 3:
 - Choose the folder where you want to generate the component or choose path default (`src/components`).
+- `Warning: Option Default folder is not available. Will soon be available!`.
 
 <p align="left">
   <img src="./src/img/step-three.png" width="500" />
 </p>
-  
+
 ### Step 4:
+
 - Choose the style library you want to use.
 - Choose between `Material-UI` or `Styled-Components` or `Style without library` or `Without style`.
 
