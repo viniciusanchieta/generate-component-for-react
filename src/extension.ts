@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
-import { formatFunctionComponentName, generateComponentFile, generateComponentFolder, generateComponentName } from './utils';
+import { FormatTypesExampleEnum } from './enums';
+import { FormatNameProps, createFilesProps } from './interfaces';
+import { formateNameFile, formatNameComponent, generateFiles, generateFolder, writeFile } from './utils';
 export function activate(context: vscode.ExtensionContext) {
 
 	function folderSelected(){
@@ -8,14 +10,15 @@ export function activate(context: vscode.ExtensionContext) {
 			const lastFolder = getFolder[getFolder.length - 1];
 			return lastFolder.uri.fsPath;
 		}
-		return "";
+		return false;
 	}
 
 	let disposable = vscode.commands.registerCommand('generate-component-and-style.gc', async () => {
 
 		async function getNameComponent(){
 			const name = await vscode.window.showInputBox({
-				placeHolder: "Component name",
+				placeHolder: "Ex.: button group",
+				prompt: "Enter the name of the component",
 				value: "",
 				validateInput: (value: string) => {
 					if(value.length === 0){
@@ -24,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 					return null;
 				}
 			});
-			return name ? name : "";
+			return name ? name : false;
 		}
 
 		async function getSelectedPath(){
@@ -48,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
 				canSelectMany: false,
 				openLabel: "Select folder"
 			});
-			return folderPath ? folderPath[0].fsPath : "";
+			return folderPath ? folderPath[0].fsPath : false;
 
 		}
 
@@ -86,62 +89,110 @@ export function activate(context: vscode.ExtensionContext) {
 			], {
 				placeHolder: "Choose library"
 			}) as any;
-			return library ? library.value : "";
+			return library ? library.value : false;
 		}
 
-		async function createComponent(nameComponent: string, pathSelected: string, library: string){
-			const fs = require('fs');
-			const path = require('path');
-			const nameFunctionComponentFormatted = formatFunctionComponentName(nameComponent, "Component");
-			const createFolder = generateComponentFolder(pathSelected, nameComponent);
-			const componentFile = generateComponentFile(nameComponent, createFolder);
-			const componentName = generateComponentName(nameComponent);
+		async function chooseFormatNameFiles(){
+			const format = await vscode.window.showQuickPick([
+				{
+					label: "Kebab Case",
+					description: FormatTypesExampleEnum.kebabCase,
+					detail: "",
+					picked: false,
+					value: "kebabCase"
+				},
+				{
+					label: "PascalCase",
+					description: FormatTypesExampleEnum.PascalCase,
+					detail: "",
+					picked: false,
+					value: "pascalCase"
+				}
 
-			switch(library){
+			], {
+				placeHolder: "Choose file name format"
+			}) as any;
+			return format ? format.value : false;
+		}
+
+		async function createFiles({nameComponent, pathSelected, chooseLibrary, chooseFormatNameFiles} : createFilesProps){
+			const formatName = formateNameFile({ chosenNameFormat: chooseFormatNameFiles, nameComponent } as FormatNameProps);
+			const pathComponent = generateFolder({ pathSelected, nameComponent: formatName });
+
+			const formatNameFunctionComponent = formatNameComponent({nameComponent} as FormatNameProps);
+
+			const files = generateFiles({
+				nameComponent: formatName, 
+				pathComponent: pathComponent,
+				generateStyle: chooseLibrary !== "no-style"
+			});
+			switch(chooseLibrary){
 				case "material-ui":
-					const styleFileMui = path.join(createFolder, componentName + '-styles.ts');
-					const styleFileContentMui = "import { makeStyles } from '@mui/styles';\n\nexport default makeStyles({\n	container: {}\n});\n";
-					fs.writeFileSync(styleFileMui, styleFileContentMui);
-					const componentFileContentMui = "import makeStyles from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
-					fs.writeFileSync(componentFile, componentFileContentMui);
+					writeFile({
+						pathFile: files.styleGenerated,
+						contentFile: "import { makeStyles } from '@mui/styles';\n\nexport default makeStyles({\n	container: {}\n});\n"
+					});
+					writeFile({
+						pathFile: files.componentGenerated,
+						contentFile: "import makeStyles from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+					});
 					break;
 				case "styled-components":
-					const styleFileSc = path.join(createFolder, componentName + '-styles.ts');
-					const styleFileContentSc = "import styled from 'styled-components';\n\nexport const Container = styled.div``;\n";
-					fs.writeFileSync(styleFileSc, styleFileContentSc);
-					const componentFileContentSc = "import { Container } from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
-					fs.writeFileSync(componentFile, componentFileContentSc);
+					writeFile({
+						pathFile: files.styleGenerated,
+						contentFile: "import styled from 'styled-components';\n\nexport const Container = styled.div``;\n"
+					});
+					writeFile({
+						pathFile: files.componentGenerated,
+						contentFile: "import { Container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+					});
 					break;
 				case "no-library":
-					const styleFileNoLibrary = path.join(createFolder, componentName + '-styles.ts');
-					const styleFileContentNoLibrary = "export const container = {};\n";
-					fs.writeFileSync(styleFileNoLibrary, styleFileContentNoLibrary);
-					const componentFileContentNoLibrary = "import { container } from './" + componentName + "-style';\n\nfunction " + nameFunctionComponentFormatted + "() {\n	return (\n		<h1 className={container}>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
-					fs.writeFileSync(componentFile, componentFileContentNoLibrary);
+					writeFile({
+						pathFile: files.styleGenerated,
+						contentFile: "export const container = {};\n"
+					});
+					writeFile({
+						pathFile: files.componentGenerated,
+						contentFile: "import { container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<div className={container}>Hello World</div>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+					});
 					break;
 				case "no-style":
-					const componentFileContentNoStyle = "function " + nameFunctionComponentFormatted + "() {\n	return (\n		<h1>Hello World</h1>\n	);\n}\n\nexport default " + nameFunctionComponentFormatted + ";";
-					fs.writeFileSync(componentFile, componentFileContentNoStyle);
+					writeFile({
+						pathFile: files.componentGenerated,
+						contentFile: "function " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<h1>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+					});
 					break;
 			}
 
-			const indexFile = path.join(createFolder, 'index.ts');
-			const nameFunctionComponentFormattedIndex = formatFunctionComponentName(nameComponent, "Tag");
-			const indexFileContent = `export { default as ${nameFunctionComponentFormattedIndex} } from './${componentName}';`;
-			fs.appendFileSync(indexFile, indexFileContent);
-
-			const testFileContent = `import { render } from '@testing-library/react';\nimport ${nameFunctionComponentFormatted} from './${componentName}';\n\nconst makeSut = () => render(<${nameFunctionComponentFormatted} />);\n\ndescribe('${nameFunctionComponentFormatted}', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n`;
-			const testFile = path.join(createFolder, componentName + '.spec.tsx');
-			fs.writeFileSync(testFile, testFileContent);
+			writeFile({
+				pathFile: files.testGenerated,
+				contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
+			});
+			
+			writeFile({
+				pathFile: files.exportComponentGenerated,
+				contentFile: "export { default as " + formatNameFunctionComponent.nameComponentExport + " } from './" + formatName + "';"
+			});
 
 			vscode.window.showInformationMessage(`Component ${nameComponent} created successfully 🎉`);
-			
 		}
 
+		if(!getNameComponent() || !getSelectedPath() || !chooseLibrary()){
+			vscode.window.showInformationMessage("Something went wrong 😢");
+			return;
+		}
 		const nameComponent = await getNameComponent();
 		const pathSelected = await getSelectedPath();
 		const library = await chooseLibrary();
-		createComponent(nameComponent, pathSelected, library);
+
+		const formatNameFiles = await chooseFormatNameFiles();
+		createFiles({
+			nameComponent,
+			pathSelected,
+			chooseLibrary: library,
+			chooseFormatNameFiles: formatNameFiles
+		});
 		
 	});
 
