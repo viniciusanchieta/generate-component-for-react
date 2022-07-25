@@ -49,17 +49,37 @@ This extension the component with the given name, generates a test file with the
   <img src="./src/img/step-four.png" width="500" />
 </p>
 
-### Result:
-- The component is generated in the folder you choose with files:
-  - `component-styles.ts`
-  - `component.spec.tsx`
-  - `component.tsx`
+### Step 5:
+- Choose file name format.
+- Available formats: KebabCase and PascalCase.
+- Example with KebabCase:
+  - `button-submit-styles.ts`
+  - `button-submit.spec.tsx`
+  - `button-submit.tsx`
   - `index.ts`
-    - Ps. All the files that are generated, contain the start code in each one.
+- Example with PascalCase:
+  - `ButtonSubmit-styles.ts`
+  - `ButtonSubmit.spec.tsx`
+  - `ButtonSubmit.tsx`
+  - `index.ts`
+
+
+<p align="left">
+  <img src="./src/img/step-five.png" width="500" />
+</p>
+
+### Result:
+- Ps. All the files that are generated, contain the start code in each one.
 
 <p align="left">
   <img src="./src/img/result.png" width="200" />
 </p>
+
+### About the files
+- `button-styles.ts`: Style file for the component.
+- `button.spec.tsx`: Test file for the component with the [testing-library react](https://testing-library.com/react).
+- `button.tsx`: Component file for the component.
+- `index.ts`: Index file for export the component.
 
 ## Requirements
 
@@ -79,5 +99,10 @@ npm install @testing-library/react
 ## I am here
 
 <a href="https://www.linkedin.com/in/viniciusanchieta/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+
+## License
+
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
+
 
 
