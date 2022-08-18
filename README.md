@@ -96,13 +96,13 @@ If you want to use the test library `testing-library react`, you need to install
 npm install @testing-library/react
 ```
 
-## I am here
+## Contributors
 
-<a href="https://www.linkedin.com/in/viniciusanchieta/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+[![](https://contrib.rocks/image?repo=viniciusanchieta/generate-component-and-style)](https://github.com/viniciusanchieta/generate-component-and-style/graphs/contributors)
 
 ## License
 
-This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
+This project is under the MIT license. See the [LICENSE](LICENSE.md) file for more details.
 
 
 
