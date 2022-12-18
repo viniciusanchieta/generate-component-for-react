@@ -1,7 +1,7 @@
 import { ReplaceEnum } from "../enums";
 import { FormatNameProps } from "../interfaces";
 
-export const formateNameFile = ({chosenNameFormat, nameComponent}: FormatNameProps) => {
+export const formatNameFile = ({chosenNameFormat, nameComponent}: FormatNameProps) => {
   let formattedComponentFile = nameComponent;
   switch (chosenNameFormat) {
     case 'pascalCase':

@@ -1,8 +1,8 @@
-# Generate component and style
+# Generate component for React
 
-[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
-[![Installs](https://vsmarketplacebadge.apphb.com/installs/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style) 
-[![Rating](https://vsmarketplacebadge.apphb.com/rating/viniciusanchieta.generate-component-and-style.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-and-style)
+[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react) 
+[![Installs](https://vsmarketplacebadge.apphb.com/installs/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react) 
+[![Rating](https://vsmarketplacebadge.apphb.com/rating/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react)
 
 This extension generates a component and style for the given component name.
 
@@ -50,6 +50,15 @@ This extension the component with the given name, generates a test file with the
 </p>
 
 ### Step 5:
+- Choose if you want to generate interface for the component.
+- Choose between `Yes` or `No`.
+
+
+<p align="left">
+  <img src="./src/img/step-five.png" width="500" />
+</p>
+
+### Step 6:
 - Choose file name format.
 - Available formats: KebabCase and PascalCase.
 - Example with KebabCase:
@@ -65,7 +74,7 @@ This extension the component with the given name, generates a test file with the
 
 
 <p align="left">
-  <img src="./src/img/step-five.png" width="500" />
+  <img src="./src/img/step-six.png" width="500" />
 </p>
 
 ### Result:
@@ -98,7 +107,7 @@ npm install @testing-library/react
 
 ## Contributors
 
-[![](https://contrib.rocks/image?repo=viniciusanchieta/generate-component-and-style)](https://github.com/viniciusanchieta/generate-component-and-style/graphs/contributors)
+[![](https://contrib.rocks/image?repo=viniciusanchieta/generate-component-for-react)](https://github.com/viniciusanchieta/generate-component-for-react/graphs/contributors)
 
 ## License
 

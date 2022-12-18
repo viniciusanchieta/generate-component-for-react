@@ -1,9 +1,9 @@
 {
   "name": "generate-component-and-style",
-  "displayName": "Generate component and style",
+  "displayName": "Generate component for React",
   "description": "This extension generates a component and style for the given component name.",
-  "version": "0.1.2",
-  "repository": "https://github.com/viniciusanchieta/generate-component-and-style/tree/prod",
+  "version": "0.1.4",
+  "repository": "https://github.com/viniciusanchieta/generate-component-for-react/tree/prod",
   "publisher": "viniciusanchieta",
   "icon": "extension/img/logo.png",
   "engines": {
@@ -18,14 +18,14 @@
     "url": "https://viniciusanchieta.dev"
   },
   "activationEvents": [
-    "onCommand:generate-component-and-style.gc"
+    "onCommand:generate-component-for-react.gc"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "generate-component-and-style.gc",
-        "title": "Generate Component and Style"
+        "command": "generate-component-for-react.gc",
+        "title": "Generate Component for React"
       }
     ]
   },
@@ -36,7 +36,9 @@
     "React",
     "Material-UI",
     "Styled-Components",
-    "Unit Test"
+    "Unit Test",
+    "Interface",
+    "TypeScript"
   ],
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -47,15 +49,15 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/glob": "^7.2.0",
-    "@types/mocha": "^9.1.1",
-    "@types/node": "16.x",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "18.x",
     "@types/vscode": "^1.69.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.0",
-    "@typescript-eslint/parser": "^5.30.0",
-    "@vscode/test-electron": "^2.1.5",
-    "eslint": "^8.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "@vscode/test-electron": "^2.2.1",
+    "eslint": "^8.30.0",
     "glob": "^8.0.3",
-    "mocha": "^10.0.0"
+    "mocha": "^10.2.0"
   }
 }

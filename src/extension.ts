@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { FormatTypesExampleEnum } from './enums';
 import { FormatNameProps, createFilesProps } from './interfaces';
-import { formateNameFile, formatNameComponent, generateFiles, generateFolder, writeFile } from './utils';
+import { formatNameFile, formatNameComponent, generateFiles, generateFolder, writeFile } from './utils';
 export function activate(context: vscode.ExtensionContext) {
 
 	function folderSelected(){
@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
 		return false;
 	}
 
-	let disposable = vscode.commands.registerCommand('generate-component-and-style.gc', async () => {
+	let disposable = vscode.commands.registerCommand('generate-component-for-react.gc', async () => {
 
 		async function getNameComponent(){
 			const name = await vscode.window.showInputBox({
@@ -115,61 +115,135 @@ export function activate(context: vscode.ExtensionContext) {
 			return format ? format.value : false;
 		}
 
-		async function createFiles({nameComponent, pathSelected, chooseLibrary, chooseFormatNameFiles} : createFilesProps){
-			const formatName = formateNameFile({ chosenNameFormat: chooseFormatNameFiles, nameComponent } as FormatNameProps);
-			const pathComponent = generateFolder({ pathSelected, nameComponent: formatName });
+		async function chooseWithInterface(){
+			const withInterface = await vscode.window.showQuickPick([
+				{
+					label: "Yes",
+					description: "",
+					detail: "",
+					picked: false,
+					value: true
+				},
+				{
+					label: "No",
+					description: "",
+					detail: "",
+					picked: false,
+					value: false
+				}
 
+			], {
+				placeHolder: "Create interface?"
+			}) as any;
+			return withInterface ? withInterface.value : false;
+		}
+
+		async function createFiles({nameComponent, pathSelected, chooseLibrary, chooseFormatNameFiles, chooseWithInterface} : createFilesProps){
+			const formatName = formatNameFile({ chosenNameFormat: chooseFormatNameFiles, nameComponent } as FormatNameProps);
+			const pathComponent = generateFolder({ pathSelected, nameComponent: formatName, isInterface: chooseWithInterface });
 			const formatNameFunctionComponent = formatNameComponent({nameComponent} as FormatNameProps);
 
 			const files = generateFiles({
 				nameComponent: formatName, 
 				pathComponent: pathComponent,
-				generateStyle: chooseLibrary !== "no-style"
+				generateStyle: chooseLibrary !== "no-style",
+				generateInterface: chooseWithInterface,
 			});
+
+			if(chooseWithInterface){
+				await writeFile({
+					pathFile: files.interfaceGenerated,
+					contentFile: "export interface " + formatNameFunctionComponent.nameComponent + "Props {\n\ttitle: string;\n}\n"
+				});
+
+				await writeFile({
+					pathFile: files.exportInterfaceGenerated,
+					contentFile: "export * from './" + formatName + "-props.interface';"
+				});
+			}
+					
+
 			switch(chooseLibrary){
 				case "material-ui":
 					writeFile({
 						pathFile: files.styleGenerated,
 						contentFile: "import { makeStyles } from '@mui/styles';\n\nexport default makeStyles({\n	container: {}\n});\n"
 					});
-					writeFile({
-						pathFile: files.componentGenerated,
-						contentFile: "import makeStyles from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
-					});
+					if(chooseWithInterface){
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import makeStyles from './" + formatName + "-styles'; \nimport type { " + formatNameFunctionComponent.nameComponent + "Props } from './interfaces';\n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "({title}: " + formatNameFunctionComponent.nameComponent + "Props) {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>{title}</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					} else {
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import makeStyles from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					}
 					break;
 				case "styled-components":
 					writeFile({
 						pathFile: files.styleGenerated,
 						contentFile: "import styled from 'styled-components';\n\nexport const Container = styled.div``;\n"
 					});
-					writeFile({
-						pathFile: files.componentGenerated,
-						contentFile: "import { Container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
-					});
+
+					if(chooseWithInterface){
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import { Container } from './" + formatName + "-styles'; \nimport type { " + formatNameFunctionComponent.nameComponent + "Props } from './interfaces';\n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "({title}: " + formatNameFunctionComponent.nameComponent + "Props) {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					} else {
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import { Container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<Container>Hello World</Container>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					}
 					break;
 				case "no-library":
 					writeFile({
 						pathFile: files.styleGenerated,
 						contentFile: "export const container = {};\n"
 					});
-					writeFile({
-						pathFile: files.componentGenerated,
-						contentFile: "import { container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<div className={container}>Hello World</div>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
-					});
+
+					if(chooseWithInterface){
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import { container } from './" + formatName + "-styles'; \nimport { " + formatNameFunctionComponent.nameComponent + "Props } from './interfaces';\n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "({title}: " + formatNameFunctionComponent.nameComponent + "Props) {\n	return (\n		<div className={container}>Hello World</div>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					} else {
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import { container } from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<div className={container}>Hello World</div>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					}
 					break;
 				case "no-style":
-					writeFile({
-						pathFile: files.componentGenerated,
-						contentFile: "function " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<h1>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
-					});
+					if(chooseWithInterface){
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "import type { " + formatNameFunctionComponent.nameComponent + "Props } from './interfaces';\n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "({title}: " + formatNameFunctionComponent.nameComponent + "Props) {\n	return (\n		<h1>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					} else {
+						writeFile({
+							pathFile: files.componentGenerated,
+							contentFile: "function " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	return (\n		<h1>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+						});
+					}
 					break;
 			}
 
-			writeFile({
-				pathFile: files.testGenerated,
-				contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
-			});
-			
+			if(chooseWithInterface){
+				writeFile({
+					pathFile: files.testGenerated,
+					contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " title='Hello World' />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
+				});
+			} else {
+				writeFile({
+					pathFile: files.testGenerated,
+					contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
+				});
+			}
+
 			writeFile({
 				pathFile: files.exportComponentGenerated,
 				contentFile: "export { default as " + formatNameFunctionComponent.nameComponentExport + " } from './" + formatName + "';"
@@ -185,13 +259,15 @@ export function activate(context: vscode.ExtensionContext) {
 		const nameComponent = await getNameComponent();
 		const pathSelected = await getSelectedPath();
 		const library = await chooseLibrary();
+		const withInterface = await chooseWithInterface();
 
 		const formatNameFiles = await chooseFormatNameFiles();
 		createFiles({
 			nameComponent,
 			pathSelected,
 			chooseLibrary: library,
-			chooseFormatNameFiles: formatNameFiles
+			chooseFormatNameFiles: formatNameFiles,
+			chooseWithInterface: withInterface,
 		});
 		
 	});
