@@ -2,7 +2,7 @@
   "name": "generate-component-and-style",
   "displayName": "Generate component for React",
   "description": "This extension generates a component and style for the given component name.",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "repository": "https://github.com/viniciusanchieta/generate-component-for-react/tree/prod",
   "publisher": "viniciusanchieta",
   "icon": "extension/img/logo.png",
