@@ -13,5 +13,6 @@ export const formatNameComponent = ({
   return {
     nameFunctionComponent: nameComponentInFunction + 'Component',
     nameComponentExport: nameComponentInFunction + 'Tag',
+    nameComponent: nameComponentInFunction,
   }
 }
