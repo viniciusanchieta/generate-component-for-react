@@ -1,9 +1,5 @@
 # Generate component for React
 
-[![Marketplace Version](https://vsmarketplacebadge.apphb.com/version/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react) 
-[![Installs](https://vsmarketplacebadge.apphb.com/installs/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react) 
-[![Rating](https://vsmarketplacebadge.apphb.com/rating/viniciusanchieta.generate-component-for-react.svg?color=blueviolet)](https://marketplace.visualstudio.com/items?itemName=viniciusanchieta.generate-component-for-react)
-
 This extension generates a component and style for the given component name.
 
 ## About

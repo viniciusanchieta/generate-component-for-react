@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.1.6] - 2022-12-18
+### Changed
+  - Remove badges of [README.md](./README.md).
+
+## [0.1.5] - 2022-12-18
+### Changed
+  - Alter badges of [README.md](./README.md).
+
 ## [0.1.4] - 2022-12-18
 ### Changed
   - Add step 6 of create interface in [README.md](./README.md).
