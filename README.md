@@ -88,9 +88,9 @@ This extension the component with the given name, generates a test file with the
 
 ## Requirements
 
-If you want to use the style library `Material-UI`, you need to install the `@material-ui/core` package.
+If you want to use the style library `Material-UI`, you need to install the `@mui/material` package.
 ```bash
-npm install @material-ui/core
+npm install @mui/material
 ```
 If you want to use the style library `Styled-Components`, you need to install the `styled-components` package.
 ```bash
