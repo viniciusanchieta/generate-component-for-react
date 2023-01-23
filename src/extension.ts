@@ -177,7 +177,7 @@ export function activate(context: vscode.ExtensionContext) {
 					} else {
 						writeFile({
 							pathFile: files.componentGenerated,
-							contentFile: "import makeStyles from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container}>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
+							contentFile: "import makeStyles from './" + formatName + "-styles'; \n\nfunction " + formatNameFunctionComponent.nameFunctionComponent + "() {\n	const classes = makeStyles();\n	return (\n		<h1 className={classes.container} role='heading'>Hello World</h1>\n	);\n}\n\nexport default " + formatNameFunctionComponent.nameFunctionComponent + ";"
 						});
 					}
 					break;
@@ -235,12 +235,12 @@ export function activate(context: vscode.ExtensionContext) {
 			if(chooseWithInterface){
 				writeFile({
 					pathFile: files.testGenerated,
-					contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " title='Hello World' />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
+					contentFile: "import { render, screen } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " title='Hello World' />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut(); \n	const title = screen.getByRole('heading');\n	expect(title).toBeInTheDocument();\n\n	});\n});\n"
 				});
 			} else {
 				writeFile({
 					pathFile: files.testGenerated,
-					contentFile: "import { render } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut();\n	});\n});\n"
+					contentFile: "import { render, screen } from '@testing-library/react';\nimport " + formatNameFunctionComponent.nameFunctionComponent + " from './" + formatName + "';\n\nconst makeSut = () => render(<" + formatNameFunctionComponent.nameFunctionComponent + " />);\n\ndescribe('" + formatNameFunctionComponent.nameFunctionComponent + "', () => {\n	test('should render', () => {\n		makeSut(); \n	const title = screen.getByRole('heading');\n	expect(title).toBeInTheDocument();\n\n	});\n});\n"
 				});
 			}
 
@@ -248,6 +248,7 @@ export function activate(context: vscode.ExtensionContext) {
 				pathFile: files.exportComponentGenerated,
 				contentFile: "export { default as " + formatNameFunctionComponent.nameComponentExport + " } from './" + formatName + "';"
 			});
+			
 
 			vscode.window.showInformationMessage(`Component ${nameComponent} created successfully 🎉`);
 		}

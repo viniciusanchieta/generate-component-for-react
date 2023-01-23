@@ -1,4 +1,4 @@
-import { ReplaceEnum } from "../enums";
+import replaces from "./replaces";
 import { FormatNameProps } from "../interfaces";
 
 export const formatNameFile = ({chosenNameFormat, nameComponent}: FormatNameProps) => {
@@ -6,7 +6,7 @@ export const formatNameFile = ({chosenNameFormat, nameComponent}: FormatNameProp
   switch (chosenNameFormat) {
     case 'pascalCase':
       formattedComponentFile = nameComponent.trim()
-      .replace(ReplaceEnum.nonAlphanumeric, " ")
+      .replace(replaces.specialCharacters, " ")
       .split(" ")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join("")
@@ -14,9 +14,9 @@ export const formatNameFile = ({chosenNameFormat, nameComponent}: FormatNameProp
       break;
     default:
       formattedComponentFile = nameComponent.trim()
-      .replace(ReplaceEnum.nonAlphanumeric, " ")
+      .replace(replaces.specialCharacters, " ")
       .split(" ")
-      .join("-")
+      .join("-");
       break;
   }
 
