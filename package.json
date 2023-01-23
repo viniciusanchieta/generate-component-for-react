@@ -2,7 +2,7 @@
   "name": "generate-component-and-style",
   "displayName": "Generate component for React",
   "description": "This extension generates a component and style for the given component name.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "repository": "https://github.com/viniciusanchieta/generate-component-for-react/tree/prod",
   "publisher": "viniciusanchieta",
   "icon": "extension/img/logo.png",
@@ -49,15 +49,15 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/glob": "^8.0.0",
+    "@types/glob": "^8.0.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "18.x",
     "@types/vscode": "^1.69.0",
-    "@typescript-eslint/eslint-plugin": "^5.46.1",
-    "@typescript-eslint/parser": "^5.46.1",
-    "@vscode/test-electron": "^2.2.1",
-    "eslint": "^8.30.0",
-    "glob": "^8.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "@vscode/test-electron": "^2.2.2",
+    "eslint": "^8.32.0",
+    "glob": "^8.1.0",
     "mocha": "^10.2.0"
   }
 }

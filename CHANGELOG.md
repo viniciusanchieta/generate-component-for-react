@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.1.7] - 2023-01-23
+### Fixed
+  - Fix a bug of error import styles.
+    - Issue: [#22](https://github.com/viniciusanchieta/generate-component-for-react/issues/22)
+    - Issue: [#23](https://github.com/viniciusanchieta/generate-component-for-react/issues/23)
+### Changed
+  - Change the install command of Material-UI in [README.md](./README.md).
+
+
 ## [0.1.6] - 2022-12-18
 ### Changed
   - Remove badges of [README.md](./README.md).

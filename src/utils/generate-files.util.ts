@@ -1,6 +1,3 @@
-import { ReplaceEnum } from '../enums';
-
-
 interface GenerateFilesPros{
   pathComponent: string;
   nameComponent: string;
